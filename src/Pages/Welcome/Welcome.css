@@ -1,0 +1,78 @@
+.banner-container{
+    background-image: url('../../assets/images/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+.text-banner{
+    background-color: rgba(0, 0, 0, 0.5); /* overlay pour meilleure lisibilité */
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.text-tin{
+    font-weight: 100;
+}
+
+strong{
+    font-weight: 900;
+}
+
+.ctn-container{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+
+.free-div{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: darkslategrey;
+    color: white;
+}
+
+.free-text{
+color: white;
+text-decoration: none;
+font-size: 18px;
+font-weight: bold;
+}
+
+.contact-div{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 1px solid;
+
+}
+
+.contact-text{
+color: white;
+text-decoration: none;
+font-size: 18px;
+font-weight: bold;
+}
+
