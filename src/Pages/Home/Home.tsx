@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import Input from "../../Components/Input/Input";
 import monImage from "../../assets/images/logo.png";
 import Bouton from "../../Components/Bouton/Bouton";
@@ -6,33 +6,25 @@ import "./Home.css";
 import H1 from "../../Components/H1/H1";
 import { Link, useNavigate } from "react-router";
 import { z } from "zod";
-import axios from "axios";
 
-type projectType = {
-  name: string
-}
-type projectResponse = {
-  data: [
-    projectType
-  ]
-}
-
+// type projectResponse = {
+//   data: [
+//     projectType
+//   ]
+// }
 
 const registerSchema = z.object({
-    name: z.string().min(5, "Le nom doit contenir au moins 5 caractères"),
-    email: z.email("Veuillez entrer une adresse email valide"),
-    telephone: z.string().min(8, "Le numero doit être un nombre positif"),
-    password: z.string().min(8, "Le mot de passe doit être un nombre positif"),
-  });
-
-
+  name: z.string().min(5, "Le nom doit contenir au moins 5 caractères"),
+  email: z.email("Veuillez entrer une adresse email valide"),
+  telephone: z.string().min(8, "Le numero doit être un nombre positif"),
+  password: z.string().min(8, "Le mot de passe doit être un nombre positif"),
+});
 
 export default function Home() {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [telephone, setTelephone] = useState<string>("");
-  const [projects , setProjects] = useState<Array<projectType>>([])
 
   const [errors, setErrors] = useState({
     name: "",
@@ -52,12 +44,10 @@ export default function Home() {
   const onTelephoneChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setTelephone(event.target.value);
 
-  
-
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("formulaire soumis")
- 
+    console.log("formulaire soumis");
+
     const result = registerSchema.safeParse({
       name,
       email,
@@ -90,42 +80,22 @@ export default function Home() {
     navigate("/profile");
   };
 
-useEffect(() => {
-axios.get('https://focuspro.dayal-enterprises.com/public/api/projects')
-
-  .then(function (response) {
-
-    // handle success
-    console.log(response.data);
-    const resultData: projectResponse = response
-    console.log(resultData.data[0])
-    setProjects(resultData.data)
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
-  .finally(function () {
-    // always executed
-  });
-}, [])
+  
 
   return (
     <Fragment>
-      <p>Nom: {name}</p>
+      {/* <p>Nom: {name}</p>
       <p>Email: {email}</p>
       <p>Tel: {telephone}</p>
-      <p>Password: {password}</p>
+      <p>Password: {password}</p> */}
 
-      {
-        projects.map((project, index) =>{
-          return (
-            <div key={index}>
-              {project.name}
-            </div>
-          )
-        })
-      }
+      {/* {projects.map((project, index) => {
+        return <div key={index}>{project.name}</div>;
+      })} */}
+
+      <div>
+        <Link to={'projects'}>Liste des projets</Link>
+      </div>
 
       <div className="grid-container">
         <div className="conatainer_princ">
@@ -138,7 +108,7 @@ axios.get('https://focuspro.dayal-enterprises.com/public/api/projects')
             </div>
           </div>
 
-          <form onSubmit={onSubmit} >
+          <form onSubmit={onSubmit}>
             <Input
               label="Nom et prénom"
               reference="fullname"
