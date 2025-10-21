@@ -1,15 +1,16 @@
 import './Bouton.css'
 type boutonProps = {
   label: string;
+  disabled: boolean
 
 }
 export default function Bouton({
-    label
+    label, disabled,
 }: boutonProps) {
   return (
     <div className="btn-component">
 
-        <button type="submit">{label}</button>
+        <button disabled={disabled} type="submit">{label}</button>
     </div>
   )
 }

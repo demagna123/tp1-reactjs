@@ -5,14 +5,18 @@ import monImage from "../../assets/images/logo.png";
 import Bouton from "../../Components/Bouton/Bouton";
 import { useEffect, useState } from "react";
 import { z } from "zod";
+import { userApi } from "../../api/Users/ahtentication";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errors, setErrors] = useState({
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [successmessage, setSuccessMessage] = useState<string>("");
 
   const registerSchema = z.object({
     email: z.string().email("Veuillez entrer une adresse email valide"),
@@ -28,23 +32,41 @@ export default function Login() {
     setPassword(event.target.value);
   };
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Validation avec Zod
-    const result = registerSchema.safeParse({ email, password });
+    // // Validation avec Zod
+    // const result = registerSchema.safeParse({ email, password });
 
-    if (!result.success) {
-      const newErrors: typeof errors = { email: "", password: "" };
-      result.error.issues.forEach((err) => {
-        const field = err.path[0] as keyof typeof newErrors;
-        newErrors[field] = err.message;
-      });
-      setErrors(newErrors);
-      return;
+    // if (!result.success) {
+    //   const newErrors: typeof errors = { email: "", password: "" };
+    //   result.error.issues.forEach((err) => {
+    //     const field = err.path[0] as keyof typeof newErrors;
+    //     newErrors[field] = err.message;
+    //   });
+    //   setErrors(newErrors);
+    //   return;
+    // }
+
+    try {
+      setIsLoading(true);
+
+      const formData = new FormData();
+
+      // formData.set("name", name);
+      formData.set("email", email);
+      formData.set("password", password);
+
+      const result = await userApi.login(formData);
+
+      if (result.success) {
+        console.log("connexion reussi");
+      }
+      console.log(result);
+    } catch (error) {
+      setIsLoading(false);
     }
 
-    
     const storedEmail = localStorage.getItem("userEmail");
     const storedPassword = localStorage.getItem("userPassword");
 
@@ -53,7 +75,6 @@ export default function Login() {
         // localStorage.removeItem("userEmail");
         // localStorage.removeItem("userPassword");
         setErrors({ email: "", password: "" });
-        navigate("/profile");
       } else {
         setErrors({
           email: "",
@@ -110,7 +131,7 @@ export default function Login() {
 
             <div className="cover">
               <div>
-                <Bouton label="Se connecter" />
+                <Bouton disabled={isLoading} label="Se connecter" />
               </div>
               <div className="btn-cover">
                 <Link to={"/"}>S'inscrire</Link>

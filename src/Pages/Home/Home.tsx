@@ -25,6 +25,9 @@ export default function Home() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [telephone, setTelephone] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [successmessage, setSuccessMessage] = useState<string>("");
+
 
   const [errors, setErrors] = useState({
     name: "",
@@ -151,7 +154,7 @@ export default function Home() {
             )}
             <div className="cover">
               <div>
-                <Bouton label="Valider" />
+                <Bouton disabled={isLoading} label="Valider" />
               </div>
               <div>
                 <Link to={"/login"}>Se connecter</Link>
